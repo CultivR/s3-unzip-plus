@@ -38,6 +38,9 @@ var decompress = function (/* String */command, /* Function */ cb) {
     else console.error('Error: missing either bucket name, full filename, targetBucket or targetKey!')
     return
   }
+  if(command.s3options) {
+    s3 = new AWS.S3(command.s3options)
+  }
 
   s3.getObject({
     Bucket: command.bucket,
