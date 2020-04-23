@@ -91,7 +91,12 @@ var decompress = function (/* String */command, /* Function */ cb) {
       // for each file in the zip, decompress and upload it to S3; once all are uploaded, delete the tmp zip and zip on S3
       var counter = 0
       zipEntries.forEach(function (zipEntry) {
-        s3.upload({ Bucket: targetBucket, Key: targetFolder + zipEntry.entryName, Body: zipEntry.getData(), Metadata: metadata }, function (err, data) {
+        s3.upload({
+          Bucket: targetBucket,
+          Key: targetFolder + zipEntry.entryName,
+          Body: zipEntry.getData(),
+          ContentType: mime.lookup(zipEntry.entryName) || 'application/octet-stream',
+          Metadata: metadata }, function (err, data) {
           counter++
 
           if (err) {
