@@ -55,7 +55,7 @@ var decompress = function (/* String */command, /* Function */ cb) {
       var metadata = {}
       if (command.copyMetadata) {
         metadata = data.Metadata
-        console.log('zip metadata', metadata)
+        if (command.verbose) console.log('zip metadata', metadata)
       }
 
       // write the zip file locally in a tmp dir
