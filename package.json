@@ -28,6 +28,7 @@
     "date-time": "^2.1.0",
     "fs": "0.0.1-security",
     "md5": "^2.2.1",
+    "micromatch": "^4.0.2",
     "mime-types": "^2.1.16"
   }
 }

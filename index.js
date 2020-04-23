@@ -21,11 +21,12 @@ SOFTWARE.
 */
 'use strict'
 
-var Utils = require('./util')
+var Utils = require('./util');
+var micromatch = require('micromatch');
 
 function s3UnzipPlus(command, cb) {
   if (cb === undefined) { cb = function () { } }
-  var vBucket, vFile, vTargetBucket, vTargetFolder
+  var vBucket, vFile, vTargetBucket, vTargetFolder, vFilter
   if (command.args && command.args.length >= 4) {
     vBucket = command.args[0]
     vFile = command.args[1]
@@ -48,6 +49,15 @@ function s3UnzipPlus(command, cb) {
   } else {
     vTargetFolder = ''
   }
+
+  if(command.filter){
+    if (typeof command.filter === 'function'){
+      vFilter = command.filter;
+    } else {
+      vFilter = micromatch.matcher(command.filter, { basename: true });
+    }
+  }
+
   Utils.decompress({
     bucket: vBucket,
     file: vFile,
@@ -56,6 +66,7 @@ function s3UnzipPlus(command, cb) {
     deleteOnSuccess: command.deleteOnSuccess,
     copyMetadata: command.copyMetadata,
     s3options: command.s3options,
+    filterFunction: vFilter,
     verbose: command.verbose
   }, cb)
 }
