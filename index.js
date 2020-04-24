@@ -62,7 +62,7 @@ function s3UnzipPlus(command, cb) {
     deleteOnSuccess: command.deleteOnSuccess,
     copyMetadata: command.copyMetadata,
     s3options: command.s3options,
-    filterFunction: vFilter,
+    filter: vFilter,
     verbose: command.verbose
   }, cb)
 }
