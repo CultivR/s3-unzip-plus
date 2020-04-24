@@ -22,7 +22,7 @@ SOFTWARE.
 'use strict'
 
 var Utils = require('./util');
-var micromatch = require('micromatch');
+var anymatch = require('anymatch');
 
 function s3UnzipPlus(command, cb) {
   if (cb === undefined) { cb = function () { } }
@@ -51,11 +51,7 @@ function s3UnzipPlus(command, cb) {
   }
 
   if(command.filter){
-    if (typeof command.filter === 'function'){
-      vFilter = command.filter;
-    } else {
-      vFilter = micromatch.matcher(command.filter, { basename: true });
-    }
+    vFilter = anymatch(command.filter);
   }
 
   Utils.decompress({

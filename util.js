@@ -74,7 +74,8 @@ var decompress = function (/* String */command, /* Function */ cb) {
       // find all files in the zip and the count of them
       try {
         zip = new AdmZip('/tmp/' + tmpZipFilename + '.zip')
-        zipEntries = zip.getEntries().filter((entry) => command.filter(entry.entryName));
+        zipEntries = zip.getEntries();
+        if(command.filter) zipEntries = zipEntries.filter((entry) => command.filter(entry.entryName))
         zipEntryCount = Object.keys(zipEntries).length
       } catch (err) {
         cb(err)
